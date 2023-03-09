@@ -6,21 +6,28 @@
     "strict": true,
     "strictNullChecks": true,
     "skipLibCheck": true,
-    "module": "es6",
-    "target": "es6",
+    "module": "ESNext",
+    "target": "ESNext",
     "moduleResolution": "node",
-    "jsx": "react",
+    "jsx": "react-jsx",
     "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "forceConsistentCasingInFileNames": true,
+    "noFallthroughCasesInSwitch": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "baseUrl": ".",
+    "paths": {
+      "@components/*": ["src/components/*"],
+      "@pages/*": ["src/pages/*"],
+      "@config/*": ["src/config/*"],
+      "@styles/*": ["src/styles/*"],
+      "@utils/*": ["src/utils/*"],
+      "@assets/*": ["src/assets/*"],
+      "@store/*": ["src/store/*"]
+    }
   },
   "include": ["src/**/*"],
-  "exclude": ["node_modules"],
-  "baseUrl": ".",
-  "paths": {
-    "@components/*": ["src/components/*"],
-    "@config/*": ["src/config/*"],
-    "@styles/*": ["src/styles/*"],
-    "@utils/*": ["src/utils/*"],
-    "@models/*": ["src/models/*"]
-  }
+  "exclude": ["node_modules"]
 }
