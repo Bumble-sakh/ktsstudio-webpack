@@ -1,0 +1,7 @@
+@import './variables';
+
+@mixin tab-media {
+  @media (max-width: $tab-breakpoint) {
+    @content;
+  }
+}

@@ -1,0 +1,46 @@
+@use '@styles/colors';
+@import '@styles/mixins';
+
+.navigation {
+  height: 100%;
+
+  &__link {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+
+    font-weight: 500;
+    font-size: 1.125rem;
+    line-height: 180%;
+    color: colors.$black;
+    border-bottom: 3px solid colors.$transparent;
+
+    &_active {
+      color: colors.$green;
+      border-bottom: 3px solid colors.$green;
+    }
+  }
+
+  & .list {
+    gap: 60px;
+
+    @include tab-media {
+      gap: 15px;
+    }
+  }
+}
+
+.list {
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+
+  list-style-type: none;
+
+  &__item {
+    height: 100%;
+    display: flex;
+    align-items: center;
+  }
+}

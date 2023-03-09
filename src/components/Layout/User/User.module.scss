@@ -1,0 +1,22 @@
+.user {
+  & .list {
+    gap: 24px;
+
+    &__item {
+      cursor: pointer;
+    }
+  }
+}
+
+.list {
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  list-style-type: none;
+
+  &__item {
+    height: 100%;
+    display: flex;
+    align-items: center;
+  }
+}
