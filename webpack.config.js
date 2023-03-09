@@ -104,7 +104,7 @@ module.exports = {
     }),
     new TsCheckerPlugin(),
     new InterpolateHtmlPlugin({
-      PUBLIC_URL: publicPath,
+      PUBLIC_URL: '.',
     }),
   ].filter(Boolean),
   devServer: {
