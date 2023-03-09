@@ -2,11 +2,13 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const TsCheckerPlugin = require('fork-ts-checker-webpack-plugin');
+const InterpolateHtmlPlugin = require('interpolate-html-plugin');
 
 const path = require('path');
 
 const buildPath = path.resolve(__dirname, 'dist');
 const sourcePath = path.resolve(__dirname, 'src');
+const publicPath = path.resolve(__dirname, 'public');
 
 const isProd = process.env.NODE_ENV === 'production';
 
@@ -31,7 +33,13 @@ const getSettingsForStyles = (withModules = false) => {
         },
       },
     },
-    'sass-loader',
+    'resolve-url-loader',
+    {
+      loader: 'sass-loader',
+      options: {
+        sourceMap: true,
+      },
+    },
   ];
 };
 
@@ -39,17 +47,19 @@ module.exports = {
   entry: path.resolve(sourcePath, 'index.tsx'),
   output: {
     path: buildPath,
-    filename: 'bundle.js',
+    filename: 'bundle[hash].js',
   },
   target: isProd ? 'browserslist' : 'web',
   resolve: {
     extensions: ['.ts', '.tsx', '.js', '.jsx'],
     alias: {
-      components: path.join(sourcePath, 'components'),
-      config: path.join(sourcePath, 'config'),
-      styles: path.join(sourcePath, 'styles'),
-      utils: path.join(sourcePath, 'utils'),
-      models: path.join(sourcePath, 'models'),
+      '@components': path.join(sourcePath, 'components'),
+      '@pages': path.join(sourcePath, 'pages'),
+      '@config': path.join(sourcePath, 'config'),
+      '@styles': path.join(sourcePath, 'styles'),
+      '@utils': path.join(sourcePath, 'utils'),
+      '@assets': path.join(sourcePath, 'assets'),
+      '@store': path.join(sourcePath, 'store'),
     },
   },
   devtool: isProd ? 'hidden-source-map' : 'eval-source-map',
@@ -66,7 +76,7 @@ module.exports = {
       },
       {
         test: /\.[tj]sx?$/,
-        use: 'babel-loader',
+        loader: 'babel-loader',
       },
       {
         test: /\.(png|svg|jpg)$/,
@@ -77,17 +87,25 @@ module.exports = {
           },
         },
       },
+      {
+        test: /\.(woff2?|eot|ttf|otf)$/,
+        type: 'asset/resource',
+      },
     ],
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: path.resolve(sourcePath, 'index.html'),
+      template: path.resolve(publicPath, 'index.html'),
+      filename: './index.html',
     }),
     !isProd && new ReactRefreshWebpackPlugin(),
     new MiniCssExtractPlugin({
       filename: '[name]-[hash].css',
     }),
     new TsCheckerPlugin(),
+    new InterpolateHtmlPlugin({
+      PUBLIC_URL: publicPath,
+    }),
   ].filter(Boolean),
   devServer: {
     host: '127.0.0.1',
