@@ -1,0 +1,25 @@
+@use '@styles/colors';
+
+.list__item {
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.navigation__link {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+
+  font-weight: 500;
+  font-size: 1.125rem;
+  line-height: 180%;
+  color: colors.$black;
+  border-bottom: 3px solid colors.$transparent;
+
+  &_active {
+    color: colors.$green;
+    border-bottom: 3px solid colors.$green;
+  }
+}

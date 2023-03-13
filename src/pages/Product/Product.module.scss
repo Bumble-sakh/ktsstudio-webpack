@@ -1,0 +1,39 @@
+@use '@styles/colors';
+@import '@styles/mixins';
+
+.section {
+  &__wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+.title {
+  align-self: flex-start;
+  font-weight: 700;
+  font-size: 2rem;
+  line-height: 130%;
+  letter-spacing: 0.01em;
+  color: colors.$title;
+  margin-bottom: 30px;
+
+  @include tab-media {
+    font-size: 1.125rem;
+    margin-bottom: 23px;
+  }
+}
+
+.cards {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  gap: 30px;
+  margin-bottom: 55px;
+
+  @include tab-media {
+    gap: 15px;
+    margin-bottom: 36px;
+  }
+}

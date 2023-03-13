@@ -1,0 +1,41 @@
+@import './EudoxusSans/fonts';
+@import '@styles/mixins';
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  font-family: 'Eudoxus Sans', sans-serif;
+  font-style: normal;
+  font-size: 16px;
+  margin: 0;
+  overflow-x: hidden;
+
+  @include tab-media {
+    font-size: 1.125rem;
+  }
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.wrapper {
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+  display: flex;
+  padding: 0 100px;
+
+  @media (max-width: 1439px) {
+    padding: 0 24px;
+  }
+}

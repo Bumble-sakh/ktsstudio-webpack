@@ -1,0 +1,39 @@
+@use '@styles/colors';
+
+.button {
+  min-width: 140px;
+  height: 55px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  padding-left: 20px;
+  padding-right: 28px;
+  border: none;
+  background: colors.$green;
+  font-weight: 700;
+  font-size: 1.125rem;
+  line-height: 130%;
+  color: colors.$white;
+
+  &:hover {
+    cursor: pointer;
+    opacity: 0.7;
+  }
+
+  &_disabled {
+    border: none;
+    background: colors.$disabled;
+
+    &:hover {
+      cursor: default;
+      opacity: 1;
+    }
+  }
+
+  & .loader {
+    border-color: colors.$white;
+    border-right-color: colors.$disabled;
+  }
+}
