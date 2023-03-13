@@ -1,50 +1,60 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useCallback } from 'react';
 
 import searchIcon from '@assets/images/search.svg';
 import Button from '@components/Button';
-import PaginationStore from '@store/PaginationStore';
 import rootStore from '@store/RootStore/instance';
+import SearchStore from '@store/SearchStore';
 import { useLocalStore } from '@utils/useLocalStore';
-import { runInAction } from 'mobx';
+import { observer } from 'mobx-react-lite';
 import { useSearchParams } from 'react-router-dom';
 
 import styles from './Search.module.scss';
+import { ProductsPageContext } from '../Products';
 
 const Search = () => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const paginationStore = useLocalStore(() => new PaginationStore());
+  const context = useContext(ProductsPageContext);
 
-  const [value, setValue] = useState('');
+  const searchStore = useLocalStore(() => new SearchStore());
 
   useEffect(() => {
-    runInAction(() => {
-      const search = rootStore.query.getParam('search') ?? '';
-      setValue(search);
-    });
-  }, []);
+    const search = rootStore.queryParamsStore.getParam('search') ?? '';
+    searchStore.setInputValue(search);
+  }, [searchStore]);
 
-  const onChangeHandler = (event: React.FormEvent<HTMLInputElement>) => {
-    setValue(event.currentTarget.value);
-  };
+  const onChangeHandler = useCallback(
+    (event: React.FormEvent<HTMLInputElement>) => {
+      searchStore.setInputValue(event.currentTarget.value);
+    },
+    [searchStore]
+  );
 
-  const onSubmitHandler = (e: React.SyntheticEvent) => {
-    e.preventDefault();
+  const onSubmitHandler = useCallback(
+    (e: React.SyntheticEvent) => {
+      e.preventDefault();
 
-    if (value) {
-      searchParams.set('search', value);
+      if (searchStore.inputValue) {
+        searchParams.set('search', searchStore.inputValue);
+        setSearchParams(searchParams);
+      } else {
+        searchParams.delete('search');
+        setSearchParams(searchParams);
+      }
+
+      searchParams.delete('page');
       setSearchParams(searchParams);
-    } else {
-      searchParams.delete('search');
-      setSearchParams(searchParams);
-    }
 
-    searchParams.delete('page');
-    setSearchParams(searchParams);
+      rootStore.queryParamsStore.setSearch(searchParams.toString());
 
-    rootStore.query.setSearch(searchParams.toString());
-
-    paginationStore.setPaginationPage(1);
-  };
+      context.paginationStore.setDefaultPaginationPage();
+    },
+    [
+      context.paginationStore,
+      searchParams,
+      searchStore.inputValue,
+      setSearchParams,
+    ]
+  );
 
   return (
     <form className={styles.form} onSubmit={onSubmitHandler}>
@@ -52,7 +62,7 @@ const Search = () => {
       <input
         type="search"
         className={styles.input}
-        value={value}
+        value={searchStore.inputValue}
         placeholder="Search property"
         onChange={onChangeHandler}
       />
@@ -61,4 +71,4 @@ const Search = () => {
   );
 };
 
-export default Search;
+export default observer(Search);

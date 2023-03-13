@@ -39,22 +39,6 @@
   }
 }
 
-.bar {
-  width: 100%;
-  margin-bottom: 50px;
-  display: flex;
-  flex-direction: row;
-
-  justify-content: center;
-  gap: 30px;
-
-  @include tab-media {
-    flex-wrap: wrap;
-    gap: 15px;
-    margin-bottom: 30px;
-  }
-}
-
 .total {
   margin: 0 0 40px;
   align-self: flex-start;

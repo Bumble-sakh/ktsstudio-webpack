@@ -10,7 +10,7 @@ export default class QueryParamsStore {
   constructor() {
     makeObservable<QueryParamsStore, PrivateFields>(this, {
       _params: observable.ref,
-      setSearch: action,
+      setSearch: action.bound,
     });
   }
 

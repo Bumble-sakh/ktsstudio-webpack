@@ -6,6 +6,7 @@ const PAGINATION = {
   leftItemCount: 3,
   rightItemCount: 3,
   dots: 0,
+  defaultPageNumber: 1,
 };
 
 export default PAGINATION;

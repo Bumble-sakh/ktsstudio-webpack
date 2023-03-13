@@ -12,7 +12,7 @@ import {
 type PrivateFields = '_categoryId' | '_optionsIsVisible';
 
 export default class FilterStore implements ILocalStore {
-  private _categoryId: number = 0;
+  private _categoryId: number | null = null;
   private _optionsIsVisible: boolean = false;
 
   constructor() {
@@ -21,8 +21,8 @@ export default class FilterStore implements ILocalStore {
       _optionsIsVisible: observable,
       categoryId: computed,
       optionsIsVisible: computed,
-      setCategoryId: action,
-      toggleOptionsIsVisible: action,
+      setCategoryId: action.bound,
+      toggleOptionsIsVisible: action.bound,
     });
   }
 
@@ -45,9 +45,9 @@ export default class FilterStore implements ILocalStore {
   destroy(): void {}
 
   private readonly _qpReaction: IReactionDisposer = reaction(
-    () => rootStore.query.getParam('categoryId'),
+    () => rootStore.queryParamsStore.getParam('categoryId'),
     (id) => {
-      id && this.setCategoryId(+id);
+      id && this.setCategoryId(Number(id));
     }
   );
 }

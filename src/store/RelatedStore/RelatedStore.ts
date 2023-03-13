@@ -23,7 +23,7 @@ export default class RelatedStore implements ILocalStore {
       _meta: observable,
       related: computed,
       meta: computed,
-      getRelated: action,
+      getRelated: action.bound,
     });
   }
 
@@ -36,6 +36,10 @@ export default class RelatedStore implements ILocalStore {
   }
 
   async getRelated(id: string): Promise<void> {
+    if (this._meta === Meta.loading) {
+      return;
+    }
+
     this._meta = Meta.loading;
     this._related = [];
 

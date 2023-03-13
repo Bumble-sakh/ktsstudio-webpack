@@ -24,7 +24,7 @@ export default class ProductStore implements ILocalStore {
       _meta: observable,
       product: computed,
       meta: computed,
-      getProduct: action,
+      getProduct: action.bound,
     });
   }
 
@@ -45,8 +45,11 @@ export default class ProductStore implements ILocalStore {
   }
 
   async getProduct(id: string): Promise<void> {
+    if (this._meta === Meta.loading) {
+      return;
+    }
+
     this._meta = Meta.loading;
-    this._product = null;
 
     const response = await axios({
       method: API.METHOD.get,

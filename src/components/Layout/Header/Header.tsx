@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 import logo from '@assets/images/logo.svg';
 
@@ -10,9 +10,9 @@ import User from '../User';
 const Header = () => {
   const [isBurger, setIsBurger] = useState(false);
 
-  const resizeHandler = () => {
+  const resizeHandler = useCallback(() => {
     setIsBurger(document.body.clientWidth <= 880);
-  };
+  }, []);
 
   useEffect(() => {
     window.addEventListener('resize', resizeHandler);
@@ -21,7 +21,7 @@ const Header = () => {
     return () => {
       window.removeEventListener('resize', resizeHandler);
     };
-  }, []);
+  }, [resizeHandler]);
 
   return (
     <header className={styles.header}>

@@ -35,7 +35,8 @@ export default class ProductsStore implements ILocalStore {
       _categoryId: observable,
       products: computed,
       meta: computed,
-      getProducts: action,
+      totalProducts: computed,
+      getProducts: action.bound,
     });
   }
 
@@ -47,12 +48,20 @@ export default class ProductsStore implements ILocalStore {
     return this._meta;
   }
 
+  get totalProducts() {
+    return this._products.length;
+  }
+
   async getProducts(
     { categoryId, search }: getProductsParams = {
       categoryId: null,
       search: null,
     }
   ): Promise<void> {
+    if (this._meta === Meta.loading) {
+      return;
+    }
+
     this._meta = Meta.loading;
     this._products = [];
 
@@ -68,22 +77,20 @@ export default class ProductsStore implements ILocalStore {
 
     runInAction(() => {
       if (response.status === 200) {
-        try {
-          this._meta = Meta.success;
-          this._products = response.data.map(normalizeProduct);
-          return;
-        } catch {
-          this._meta = Meta.error;
-          this._products = [];
-        }
+        this._meta = Meta.success;
+        this._products = response.data.map(normalizeProduct);
+        return;
       }
+
+      this._meta = Meta.error;
+      this._products = [];
     });
   }
 
   destroy(): void {}
 
   private readonly _qpSearchReaction: IReactionDisposer = reaction(
-    () => rootStore.query.getParam('search'),
+    () => rootStore.queryParamsStore.getParam('search'),
     (search) => {
       this._search = search ?? null;
       this.getProducts({ categoryId: this._categoryId, search });
@@ -91,7 +98,7 @@ export default class ProductsStore implements ILocalStore {
   );
 
   private readonly _qpCategoryIdReaction: IReactionDisposer = reaction(
-    () => rootStore.query.getParam('categoryId'),
+    () => rootStore.queryParamsStore.getParam('categoryId'),
     (categoryId) => {
       this._categoryId = categoryId ?? null;
       this.getProducts({ categoryId, search: this._search });
