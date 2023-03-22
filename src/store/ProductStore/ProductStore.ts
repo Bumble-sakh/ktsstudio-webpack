@@ -28,14 +28,6 @@ export default class ProductStore implements ILocalStore {
     });
   }
 
-  public static getInstance(): ProductStore {
-    if (!ProductStore._instance) {
-      ProductStore._instance = new ProductStore();
-    }
-
-    return ProductStore._instance;
-  }
-
   get product() {
     return this._product;
   }

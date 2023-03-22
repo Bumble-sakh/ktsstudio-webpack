@@ -1,0 +1,47 @@
+@use '@styles/colors';
+@import '@styles/mixins';
+
+.section {
+  &__wrapper {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+.title {
+  font-weight: 700;
+  font-size: 4rem;
+  line-height: 130%;
+  color: colors.$title;
+  margin: 100px 0 20px;
+
+  @include tab-media {
+    font-size: 1.625rem;
+    margin: 50px 0 20px;
+  }
+}
+
+.cart {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+
+  @include tab-media {
+    flex-direction: column;
+  }
+
+  @include mobile-landscape-media {
+  }
+}
+
+.cards {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 36px;
+  flex: 1;
+}
+
+.empty {
+  color: colors.$subtitle;
+}

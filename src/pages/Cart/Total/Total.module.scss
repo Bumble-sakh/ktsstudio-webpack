@@ -1,0 +1,36 @@
+@use '@styles/colors';
+@import '@styles/mixins';
+
+.total {
+  height: 100%;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  min-width: 250px;
+  gap: 30px;
+  border: 2px solid colors.$grey;
+  margin-bottom: 36px;
+
+  & button:active {
+    transform: scale(0.95);
+  }
+}
+
+.content {
+  display: flex;
+  justify-content: space-between;
+}
+
+.title,
+.price {
+  margin: 0;
+  font-weight: 700;
+  font-size: 1.5rem;
+  line-height: 130%;
+  color: colors.$title;
+  margin-bottom: 9px;
+
+  @include tab-media {
+    font-size: 0.875rem;
+  }
+}

@@ -6,6 +6,7 @@ import ProductStore from '@store/ProductStore';
 import RelatedStore from '@store/RelatedStore';
 import { Meta } from '@utils/Meta';
 import { useLocalStore } from '@utils/useLocalStore';
+import { runInAction } from 'mobx';
 import { observer } from 'mobx-react-lite';
 import { useParams } from 'react-router-dom';
 
@@ -18,16 +19,22 @@ const Product = () => {
   const productStore = useLocalStore(() => new ProductStore());
   const relatedStore = useLocalStore(() => new RelatedStore());
 
+  window.scrollTo(0, 0);
+
   useEffect(() => {
     id && productStore.getProduct(id);
   }, [id, productStore]);
 
-  useEffect(() => {
-    if (productStore.product) {
-      const id = String(productStore.product.category.id);
-      relatedStore.getRelated(id);
-    }
-  }, [relatedStore, productStore.product]);
+  useEffect(
+    () =>
+      runInAction(() => {
+        if (productStore.product) {
+          const id = String(productStore.product.category.id);
+          relatedStore.getRelated(id);
+        }
+      }),
+    [relatedStore, productStore.product]
+  );
 
   return (
     <section className={styles.section}>

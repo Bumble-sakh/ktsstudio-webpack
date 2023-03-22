@@ -1,0 +1,119 @@
+@use '@styles/colors';
+@import '@styles/mixins';
+
+.card {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+
+  @include mobile-landscape-media {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  &__image {
+    width: 200px;
+    min-width: 25%;
+    object-fit: contain;
+    margin-bottom: 25px;
+  }
+
+  &__price {
+    margin: 0;
+    font-weight: 700;
+    font-size: 1.5rem;
+    line-height: 130%;
+    color: colors.$title;
+
+    @include tab-media {
+      font-size: 0.875rem;
+    }
+  }
+
+  &__buttons {
+    min-width: 140px;
+    width: calc((100% - 20px) / 2);
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-items: center;
+    flex-grow: 1;
+    border-top: 2px solid colors.$grey;
+    border-bottom: 2px solid colors.$grey;
+    flex: 1;
+
+    @include tab-media {
+      width: auto;
+    }
+  }
+
+  &__button {
+    min-width: auto;
+    height: auto;
+    flex-grow: 0;
+    width: 3rem;
+    padding-right: 20px;
+    background-color: colors.$white;
+    color: colors.$title;
+    border-left: 2px solid colors.$grey;
+    border-right: 2px solid colors.$grey;
+
+    &:active {
+      transform: scale(0.95);
+    }
+
+    & img {
+      width: 24px;
+      height: 24px;
+    }
+  }
+
+  &__amount {
+    margin: 0;
+    padding: 0 10px;
+    text-align: center;
+    font-weight: 700;
+    font-size: 1.125rem;
+    line-height: 130%;
+  }
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  align-self: flex-start;
+  flex: 1 0 40%;
+
+  &__title {
+    font-weight: 700;
+    font-size: 1.625rem;
+    line-height: 130%;
+    margin: 0;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+
+    @include tab-media {
+      font-size: 0.875rem;
+    }
+  }
+
+  &__description {
+    font-weight: 500;
+    font-size: 1.125rem;
+    line-height: 180%;
+    color: colors.$subtitle;
+    margin: 0;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+
+    @include tab-media {
+      font-size: 0.75rem;
+    }
+  }
+}

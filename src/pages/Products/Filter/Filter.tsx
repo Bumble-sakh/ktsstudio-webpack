@@ -4,6 +4,7 @@ import filter from '@assets/images/filter.svg';
 import CategoriesStore from '@store/CategoriesStore';
 import FilterStore from '@store/FilterStore';
 import { CategoryModel } from '@store/models/category';
+import rootStore from '@store/RootStore/instance';
 import { useLocalStore } from '@utils/useLocalStore';
 import classNames from 'classnames';
 import { observer } from 'mobx-react-lite';
@@ -45,7 +46,11 @@ const Filter = () => {
 
   const options = useMemo(() => {
     return categoriesStore.categories.map((category) => {
-      const isSelected = filterStore.categoryId === category.id;
+      const categoryId =
+        rootStore.queryParamsStore.getParam('categoryId') ?? '';
+      const isSelected =
+        filterStore.categoryId === category.id ||
+        Number(categoryId) === category.id;
 
       const classes = classNames({
         [styles.list__item]: true,

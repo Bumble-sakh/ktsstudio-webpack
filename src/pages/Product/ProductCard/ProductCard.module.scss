@@ -2,6 +2,7 @@
 @import '@styles/mixins';
 
 .product {
+  width: 100%;
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -61,11 +62,29 @@
     flex-direction: row;
     gap: 20px;
 
-    & button {
+    & a {
+      width: calc((100% - 20px) / 2);
       flex-grow: 1;
+
+      & button {
+        width: 100%;
+      }
+
+      @include tab-media {
+        width: auto;
+      }
     }
 
-    & button:last-child {
+    & button {
+      width: calc((100% - 20px) / 2);
+      flex-grow: 1;
+
+      @include tab-media {
+        width: auto;
+      }
+    }
+
+    &_white {
       background-color: colors.$white;
       color: colors.$title;
       border: 2px solid colors.$grey;
@@ -74,6 +93,50 @@
     @include tab-media {
       flex-direction: column;
       gap: 12px;
+    }
+  }
+
+  &__buttons-group {
+    min-width: 140px;
+    height: 55px;
+    width: calc((100% - 20px) / 2);
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-items: center;
+    flex-grow: 1;
+    border-top: 2px solid colors.$grey;
+    border-bottom: 2px solid colors.$grey;
+
+    @include tab-media {
+      width: auto;
+    }
+
+    & button {
+      min-width: auto;
+      flex-grow: 0;
+      width: 3rem;
+      padding-right: 20px;
+      background-color: colors.$white;
+      color: colors.$title;
+      border: 2px solid colors.$grey;
+
+      &:active {
+        transform: scale(0.95);
+      }
+
+      & img {
+        width: 24px;
+        height: 24px;
+      }
+    }
+
+    & div {
+      text-align: center;
+      font-weight: 700;
+      font-size: 1.125rem;
+      line-height: 130%;
     }
   }
 

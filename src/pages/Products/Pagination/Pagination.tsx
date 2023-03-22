@@ -5,6 +5,7 @@ import prev from '@assets/images/prev.svg';
 import PAGINATION from '@config/pagination';
 import rootStore from '@store/RootStore/instance';
 import classNames from 'classnames';
+import { runInAction } from 'mobx';
 import { observer } from 'mobx-react-lite';
 import { useSearchParams } from 'react-router-dom';
 
@@ -31,37 +32,46 @@ const Pagination: React.FC<PaginationProps> = ({ totalPages }) => {
     context.paginationStore.setPaginationPage(+page);
   }, [context.paginationStore]);
 
-  const nextHandle = useCallback(() => {
-    const page =
-      context.paginationStore.paginationPage + 1 < totalPages
-        ? context.paginationStore.paginationPage + 1
-        : totalPages;
+  const nextHandle = useCallback(
+    () =>
+      runInAction(() => {
+        const page =
+          context.paginationStore.paginationPage + 1 < totalPages
+            ? context.paginationStore.paginationPage + 1
+            : totalPages;
 
-    context.paginationStore.setPaginationPage(page);
-    if (page > 1) {
-      searchParams.set('page', String(page));
-      setSearchParams(searchParams);
-    } else {
-      searchParams.delete('page');
-      setSearchParams(searchParams);
-    }
-  }, [searchParams, setSearchParams, totalPages, context.paginationStore]);
+        context.paginationStore.setPaginationPage(page);
 
-  const prevHandle = useCallback(() => {
-    const page =
-      context.paginationStore.paginationPage - 1 > 1
-        ? context.paginationStore.paginationPage - 1
-        : 1;
+        if (page > 1) {
+          searchParams.set('page', String(page));
+          setSearchParams(searchParams);
+        } else {
+          searchParams.delete('page');
+          setSearchParams(searchParams);
+        }
+      }),
+    [searchParams, setSearchParams, totalPages, context.paginationStore]
+  );
 
-    context.paginationStore.setPaginationPage(page);
-    if (page > 1) {
-      searchParams.set('page', String(page));
-      setSearchParams(searchParams);
-    } else {
-      searchParams.delete('page');
-      setSearchParams(searchParams);
-    }
-  }, [searchParams, setSearchParams, context.paginationStore]);
+  const prevHandle = useCallback(
+    () =>
+      runInAction(() => {
+        const page =
+          context.paginationStore.paginationPage - 1 > 1
+            ? context.paginationStore.paginationPage - 1
+            : 1;
+
+        context.paginationStore.setPaginationPage(page);
+        if (page > 1) {
+          searchParams.set('page', String(page));
+          setSearchParams(searchParams);
+        } else {
+          searchParams.delete('page');
+          setSearchParams(searchParams);
+        }
+      }),
+    [searchParams, setSearchParams, context.paginationStore]
+  );
 
   const onPageChange = useCallback(
     (page: number) => {

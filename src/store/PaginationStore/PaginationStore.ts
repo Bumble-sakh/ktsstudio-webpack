@@ -10,26 +10,23 @@ import {
   reaction,
 } from 'mobx';
 
-type PrivateFields = '_paginationPage' | '_limit' | '_offset' | '_total';
+type PrivateFields = '_paginationPage' | '_limit' | '_total';
 
 export default class PaginationStore implements ILocalStore {
   private _paginationPage: number = PAGINATION.defaultPageNumber;
   private _limit: number = PAGINATION.limit;
   private _total: number = 0;
-  private _offset: number = (this._paginationPage - 1) * this._limit;
 
   constructor() {
     makeObservable<PaginationStore, PrivateFields>(this, {
       _paginationPage: observable,
       _limit: observable,
       _total: observable,
-      _offset: observable,
       paginationPage: computed,
       limit: computed,
       total: computed,
       offset: computed,
       isVisible: computed,
-
       setPaginationPage: action.bound,
       setTotal: action.bound,
       setDefaultPaginationPage: action.bound,
@@ -49,7 +46,7 @@ export default class PaginationStore implements ILocalStore {
   }
 
   get offset() {
-    return (this.paginationPage - 1) * this.limit;
+    return (this._paginationPage - 1) * this.limit;
   }
 
   get isVisible() {

@@ -1,11 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, FC, PropsWithChildren, useRef } from 'react';
 
 import classNames from 'classnames';
+import { CSSTransition } from 'react-transition-group';
 
 import styles from './Burger.module.scss';
 
-const Burger: React.FC<React.PropsWithChildren> = ({ children }) => {
+const Burger: FC<PropsWithChildren> = ({ children }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const nodeRef = useRef(null);
 
   return (
     <>
@@ -20,15 +22,30 @@ const Burger: React.FC<React.PropsWithChildren> = ({ children }) => {
         <span></span>
         <span></span>
       </div>
-      <div
-        className={classNames({
-          [styles.sideBar]: true,
-          [styles.sideBar_opened]: isOpen,
-        })}
-        onClick={() => setIsOpen((prev) => !prev)}
+
+      <CSSTransition
+        in={isOpen}
+        nodeRef={nodeRef}
+        timeout={300}
+        mountOnEnter
+        unmountOnExit
+        classNames={{
+          enter: styles['sidebar-enter'],
+          enterActive: styles['sidebar-enter-active'],
+          enterDone: styles['sidebar-enter-done'],
+          exit: styles['sidebar-exit'],
+          exitActive: styles['sidebar-exit-active'],
+          exitDone: styles['sidebar-exit-done'],
+        }}
       >
-        {children}
-      </div>
+        <div
+          ref={nodeRef}
+          className={styles.sidebar}
+          onClick={() => setIsOpen((prev) => !prev)}
+        >
+          {children}
+        </div>
+      </CSSTransition>
     </>
   );
 };

@@ -39,6 +39,8 @@ const Products = () => {
     [productsStore.totalProducts, paginationStore.limit]
   );
 
+  window.scrollTo(0, 0);
+
   useEffect(() => {
     const search = rootStore.queryParamsStore.getParam('search') ?? null;
     const categoryId =

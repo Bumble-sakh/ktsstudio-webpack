@@ -5,3 +5,9 @@
     @content;
   }
 }
+
+@mixin mobile-landscape-media {
+  @media (max-width: $mobile-landscape-breakpoint) {
+    @content;
+  }
+}

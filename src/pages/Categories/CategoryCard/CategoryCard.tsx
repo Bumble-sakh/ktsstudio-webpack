@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import React, { FC } from 'react';
 
 import ROUTES from '@config/routes';
 import { CategoryModel } from '@store/models/category';
@@ -25,4 +25,4 @@ const CategoryCard: FC<CategoryCardType> = ({ category }) => {
   );
 };
 
-export default CategoryCard;
+export default React.memo(CategoryCard);

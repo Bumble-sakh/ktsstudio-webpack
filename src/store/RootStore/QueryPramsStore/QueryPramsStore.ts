@@ -1,7 +1,7 @@
 import { action, makeObservable, observable } from 'mobx';
 import * as qs from 'qs';
 
-type PrivateFields = '_params';
+type PrivateFields = '_params' | '_search';
 
 export default class QueryParamsStore {
   private _params: qs.ParsedQs = {};
@@ -10,6 +10,8 @@ export default class QueryParamsStore {
   constructor() {
     makeObservable<QueryParamsStore, PrivateFields>(this, {
       _params: observable.ref,
+      _search: observable,
+      getParam: true,
       setSearch: action.bound,
     });
   }

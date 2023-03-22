@@ -29,7 +29,7 @@ const Categories = () => {
         ) : (
           <>
             <h2 className={styles.total}>
-              Total Categories
+              Total
               <span className={styles.total__count}>
                 {categoriesStore.totalCategories}
               </span>

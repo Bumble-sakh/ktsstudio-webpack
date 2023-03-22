@@ -5,6 +5,7 @@ import Button from '@components/Button';
 import rootStore from '@store/RootStore/instance';
 import SearchStore from '@store/SearchStore';
 import { useLocalStore } from '@utils/useLocalStore';
+import { runInAction } from 'mobx';
 import { observer } from 'mobx-react-lite';
 import { useSearchParams } from 'react-router-dom';
 
@@ -30,24 +31,25 @@ const Search = () => {
   );
 
   const onSubmitHandler = useCallback(
-    (e: React.SyntheticEvent) => {
-      e.preventDefault();
+    (e: React.SyntheticEvent) =>
+      runInAction(() => {
+        e.preventDefault();
 
-      if (searchStore.inputValue) {
-        searchParams.set('search', searchStore.inputValue);
+        if (searchStore.inputValue) {
+          searchParams.set('search', searchStore.inputValue);
+          setSearchParams(searchParams);
+        } else {
+          searchParams.delete('search');
+          setSearchParams(searchParams);
+        }
+
+        searchParams.delete('page');
         setSearchParams(searchParams);
-      } else {
-        searchParams.delete('search');
-        setSearchParams(searchParams);
-      }
 
-      searchParams.delete('page');
-      setSearchParams(searchParams);
+        rootStore.queryParamsStore.setSearch(searchParams.toString());
 
-      rootStore.queryParamsStore.setSearch(searchParams.toString());
-
-      context.paginationStore.setDefaultPaginationPage();
-    },
+        context.paginationStore.setDefaultPaginationPage();
+      }),
     [
       context.paginationStore,
       searchParams,

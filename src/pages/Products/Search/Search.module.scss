@@ -48,6 +48,15 @@
   color: colors.$title;
   background-color: colors.$white;
 
+  &::-webkit-search-cancel-button {
+    -webkit-appearance: none;
+    height: 24px;
+    width: 24px;
+    margin-left: 0.4em;
+    background-image: url(~@assets/images/cross.svg);
+    cursor: pointer;
+  }
+
   &::placeholder {
     font-weight: 500;
     font-size: 1.125rem;

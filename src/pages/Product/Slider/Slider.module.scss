@@ -13,16 +13,58 @@
 .images {
   width: 100%;
   height: 100%;
+
+  & div {
+    width: 100%;
+    height: 100%;
+    position: relative;
+  }
+
+  @include tab-media {
+    height: 70vw;
+  }
 }
 
 .image {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  position: absolute;
+
+  &-enter {
+    opacity: 0;
+    transition: opacity 0.5s linear;
+  }
+
+  &-enter-active {
+    opacity: 0.5;
+    transition: opacity 0.5s linear;
+  }
+
+  &-enter-done {
+    opacity: 1;
+    transition: opacity 0.5s linear;
+  }
+
+  &-exit {
+    opacity: 1;
+    transition: opacity 0.5s linear;
+  }
+
+  &-exit-active {
+    opacity: 0;
+    transition: opacity 0.5s linear;
+  }
+
+  &-exit-done {
+    opacity: 0;
+    transition: opacity 0.5s linear;
+  }
 }
 
 .prev,
 .next {
+  z-index: 200;
   width: 64px;
   height: 64px;
   background-color: colors.$green;
@@ -34,6 +76,10 @@
   justify-content: center;
   cursor: pointer;
   user-select: none;
+
+  &:active {
+    transform: scale(0.95);
+  }
 
   & img {
     width: 30px;

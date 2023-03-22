@@ -1,0 +1,22 @@
+@use '@styles/colors';
+@import '@styles/mixins';
+
+.section {
+  &__wrapper {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+.title {
+  font-weight: 700;
+  font-size: 4rem;
+  line-height: 130%;
+  color: colors.$title;
+  margin: 100px 0 20px;
+
+  @include tab-media {
+    font-size: 1.625rem;
+    margin: 50px 0 20px;
+  }
+}
